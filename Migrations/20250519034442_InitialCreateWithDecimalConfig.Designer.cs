@@ -12,8 +12,8 @@ using TravelWebsite.Data;
 namespace TravelWebsite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250519022511_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250519034442_InitialCreateWithDecimalConfig")]
+    partial class InitialCreateWithDecimalConfig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

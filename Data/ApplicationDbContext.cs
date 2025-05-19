@@ -20,6 +20,19 @@ namespace TravelWebsite.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Cấu hình precision cho các thuộc tính decimal
+            modelBuilder.Entity<Destination>()
+                .Property(d => d.Rating)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Tour>()
+                .Property(t => t.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.TotalPrice)
+                .HasColumnType("decimal(18,2)");
+
             // Cấu hình relationships giữa các entities
             modelBuilder.Entity<Tour>()
                 .HasOne(t => t.Destination)
