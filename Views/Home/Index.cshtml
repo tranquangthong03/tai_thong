@@ -1,8 +1,314 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model TravelWebsite.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Banner -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://source.unsplash.com/1600x800/?beach,travel" class="d-block w-100" alt="Beach Vacation" style="object-fit:cover; height:600px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 fw-bold">Khám phá những bãi biển tuyệt đẹp</h1>
+                <p class="lead">Trải nghiệm kỳ nghỉ dưỡng tuyệt vời tại những bãi biển đẹp nhất thế giới.</p>
+                <a asp-controller="Tour" asp-action="Index" class="btn btn-primary btn-lg">Xem các tour</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://source.unsplash.com/1600x800/?mountain,travel" class="d-block w-100" alt="Mountain View" style="object-fit:cover; height:600px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 fw-bold">Chinh phục đỉnh núi hùng vĩ</h1>
+                <p class="lead">Những chuyến phiêu lưu mạo hiểm đến các dãy núi cao nhất.</p>
+                <a asp-controller="Tour" asp-action="Index" class="btn btn-primary btn-lg">Khám phá ngay</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://source.unsplash.com/1600x800/?city,travel" class="d-block w-100" alt="City Tour" style="object-fit:cover; height:600px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 fw-bold">Khám phá thành phố sôi động</h1>
+                <p class="lead">Trải nghiệm lịch sử và văn hóa đặc sắc từ các thành phố nổi tiếng.</p>
+                <a asp-controller="Destination" asp-action="Index" class="btn btn-primary btn-lg">Xem điểm đến</a>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<!-- Search Box -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h3 class="mb-4 text-center">Tìm chuyến đi mơ ước của bạn</h3>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="destination" class="form-label">Điểm đến</label>
+                                <select class="form-select" id="destination" required>
+                                    <option value="" selected disabled>Chọn điểm đến</option>
+                                    <option value="beach">Bãi biển</option>
+                                    <option value="mountain">Núi</option>
+                                    <option value="city">Thành phố</option>
+                                    <option value="countryside">Miền quê</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="checkin" class="form-label">Ngày đi</label>
+                                <input type="date" class="form-control" id="checkin" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="guests" class="form-label">Số người</label>
+                                <select class="form-select" id="guests" required>
+                                    <option value="1">1 người</option>
+                                    <option value="2" selected>2 người</option>
+                                    <option value="3">3 người</option>
+                                    <option value="4">4 người</option>
+                                    <option value="5">5+ người</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Destinations -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Điểm đến phổ biến</h2>
+                <p class="text-muted">Khám phá những địa điểm được yêu thích nhất của chúng tôi</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a asp-controller="Destination" asp-action="Index" class="btn btn-outline-primary">
+                    Xem tất cả <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            @if (Model.PopularDestinations.Any())
+            {
+                @foreach (var destination in Model.PopularDestinations)
+                {
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="@(string.IsNullOrEmpty(destination.ImageUrl) ? $"https://source.unsplash.com/300x200/?{destination.Name}" : destination.ImageUrl)" 
+                                 class="card-img-top" alt="@destination.Name" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">@destination.Name</h5>
+                                    <span class="badge bg-primary">@destination.Rating <i class="bi bi-star-fill"></i></span>
+                                </div>
+                                <p class="card-text text-muted">@destination.Country, @destination.City</p>
+                                <p class="card-text">@(string.IsNullOrEmpty(destination.Description) ? "Khám phá vẻ đẹp tuyệt vời của điểm đến này." : destination.Description)</p>
+                                <a asp-controller="Destination" asp-action="Details" asp-route-id="@destination.Id" class="btn btn-sm btn-outline-primary">
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-map display-1 text-muted"></i>
+                    <h4 class="mt-3">Chưa có điểm đến nào</h4>
+                    <p class="text-muted">Các điểm đến phổ biến sẽ sớm được cập nhật.</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Featured Tours -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Tour du lịch nổi bật</h2>
+                <p class="text-muted">Trải nghiệm những chuyến đi tuyệt vời nhất của chúng tôi</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a asp-controller="Tour" asp-action="Index" class="btn btn-outline-primary">
+                    Xem tất cả <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            @if (Model.FeaturedTours.Any())
+            {
+                @foreach (var tour in Model.FeaturedTours)
+                {
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="position-relative">
+                                <img src="@(string.IsNullOrEmpty(tour.ImageUrl) ? $"https://source.unsplash.com/300x200/?{tour.Name}" : tour.ImageUrl)" 
+                                     class="card-img-top" alt="@tour.Name" style="height: 200px; object-fit: cover;">
+                                <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-2 m-2 rounded-pill">
+                                    <strong>@tour.Price.ToString("N0") VNĐ</strong>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@tour.Name</h5>
+                                <p class="card-text"><i class="bi bi-geo-alt me-1"></i>@tour.Destination.Name</p>
+                                <p class="card-text">
+                                    <i class="bi bi-clock me-1"></i>
+                                    @(tour.Duration.HasValue ? $"{tour.Duration} ngày" : "Liên hệ để biết chi tiết")
+                                </p>
+                                <p class="card-text">@(string.IsNullOrEmpty(tour.Description) ? "Khám phá tour du lịch tuyệt vời này." : tour.Description)</p>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-primary w-100">
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-ticket-perforated display-1 text-muted"></i>
+                    <h4 class="mt-3">Chưa có tour nào</h4>
+                    <p class="text-muted">Các tour du lịch nổi bật sẽ sớm được cập nhật.</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8 text-center">
+                <h2 class="fw-bold">Khách hàng nói gì về chúng tôi</h2>
+                <p class="text-muted">Những phản hồi từ khách hàng đã trải nghiệm dịch vụ của chúng tôi</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <span>5.0</span>
+                        </div>
+                        <p class="card-text fw-light fst-italic">
+                            "Chuyến đi tuyệt vời nhất từ trước đến nay! Hướng dẫn viên rất thân thiện và chuyên nghiệp. 
+                            Tôi sẽ quay lại vào năm sau."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <div>
+                                <h6 class="mb-0">Nguyễn Thị Hương</h6>
+                                <small class="text-muted">Hà Nội</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                            <span>4.5</span>
+                        </div>
+                        <p class="card-text fw-light fst-italic">
+                            "Dịch vụ xuất sắc và lịch trình rất hợp lý. Tôi đặc biệt ấn tượng với chất lượng khách sạn 
+                            và các bữa ăn được chuẩn bị rất chu đáo."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/men/44.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <div>
+                                <h6 class="mb-0">Trần Văn Minh</h6>
+                                <small class="text-muted">TP. Hồ Chí Minh</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning me-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <span>5.0</span>
+                        </div>
+                        <p class="card-text fw-light fst-italic">
+                            "Đây là lần thứ 3 tôi sử dụng dịch vụ của công ty và luôn cảm thấy hài lòng. 
+                            Giá cả hợp lý và trải nghiệm rất tuyệt vời."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <div>
+                                <h6 class="mb-0">Lê Thị Mai</h6>
+                                <small class="text-muted">Đà Nẵng</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Sẵn sàng cho chuyến đi tiếp theo của bạn?</h2>
+                <p class="lead mb-0">Đăng ký ngay để nhận thông tin ưu đãi và khuyến mãi đặc biệt.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a asp-controller="Tour" asp-action="Index" class="btn btn-light btn-lg">Khám phá ngay</a>
+            </div>
+        </div>
+    </div>
+</section>

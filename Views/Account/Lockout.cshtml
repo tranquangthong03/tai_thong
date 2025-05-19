@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Tài khoản bị khóa";
+}
+
+<div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-warning shadow-lg">
+                <div class="card-header bg-warning">
+                    <h1 class="display-5 fw-bold">@ViewData["Title"]</h1>
+                </div>
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-lock-fill text-warning" style="font-size: 5rem;"></i>
+                    </div>
+                    <p class="lead">Tài khoản của bạn đã bị tạm khóa do nhiều lần đăng nhập không thành công.</p>
+                    <p>Vui lòng thử lại sau.</p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg px-4 me-sm-3">Quay lại trang chủ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

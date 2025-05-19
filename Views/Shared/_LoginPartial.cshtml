@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Identity
+@using TravelWebsite.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle me-1"></i>
+            @{
+                var user = await UserManager.GetUserAsync(User);
+                var displayName = $"{user?.FirstName} {user?.LastName}";
+                if (string.IsNullOrWhiteSpace(displayName.Trim()))
+                {
+                    displayName = User.Identity?.Name ?? "Tài khoản";
+                }
+            }
+            @displayName
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-controller="Manage" asp-action="Index"><i class="bi bi-gear me-2"></i>Quản lý tài khoản</a></li>
+            <li><a class="dropdown-item" asp-controller="Booking" asp-action="MyBookings"><i class="bi bi-calendar-check me-2"></i>Đặt tour của tôi</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="dropdown-item text-danger">
+                        <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Register" && 
+           ViewContext.RouteData.Values["Controller"].ToString() == "Account" ? "active" : "")" 
+           asp-controller="Account" asp-action="Register">
+            <i class="bi bi-person-plus me-1"></i>Đăng ký
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Login" && 
+           ViewContext.RouteData.Values["Controller"].ToString() == "Account" ? "active" : "")" 
+           asp-controller="Account" asp-action="Login">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập
+        </a>
+    </li>
+}
+</ul> 
