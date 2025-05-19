@@ -8,20 +8,26 @@ namespace TravelWebsite.Data
     {
         public static async Task Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            // Kiểm tra xem đã có dữ liệu trong bảng Destinations chưa
-            if (await context.Destinations.AnyAsync())
-            {
-                return; // Cơ sở dữ liệu đã có dữ liệu, không cần thêm dữ liệu mẫu
-            }
+            // Tạo database nếu chưa tồn tại
+            context.Database.Migrate();
 
             // Thêm các vai trò
-            var roles = new[] { "Admin", "User" };
+            var roles = new[] { "Admin", "User", "Manager" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
+            }
+
+            // Kiểm tra và sửa lỗi tài khoản admin
+            await EnsureAdminAccount(userManager);
+
+            // Kiểm tra xem đã có dữ liệu trong bảng Destinations chưa
+            if (await context.Destinations.AnyAsync())
+            {
+                return; // Cơ sở dữ liệu đã có dữ liệu, không cần thêm dữ liệu mẫu
             }
 
             // Thêm dữ liệu mẫu cho Destinations
@@ -171,6 +177,74 @@ namespace TravelWebsite.Data
 
             await context.Tours.AddRangeAsync(tours);
             await context.SaveChangesAsync();
+        }
+
+        private static async Task EnsureAdminAccount(UserManager<ApplicationUser> userManager)
+        {
+            // Thông tin tài khoản admin
+            var adminEmail = "admin@travelwebsite.com";
+            var adminUserName = "admin";
+            var adminPassword = "Admin@123";
+
+            // Tìm kiếm bằng email
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+            // Nếu không tìm thấy, tạo mới
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                {
+                    UserName = adminUserName,
+                    Email = adminEmail,
+                    FirstName = "Admin",
+                    LastName = "System",
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true
+                };
+
+                var result = await userManager.CreateAsync(adminUser, adminPassword);
+
+                if (result.Succeeded)
+                {
+                    // Thêm admin vào các vai trò
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                    await userManager.AddToRoleAsync(adminUser, "User");
+                }
+                else
+                {
+                    // Ghi log lỗi nếu cần
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                    Console.WriteLine($"Không thể tạo tài khoản admin: {errors}");
+                }
+            }
+            else
+            {
+                // Kiểm tra và cập nhật username nếu cần
+                if (adminUser.UserName != adminUserName)
+                {
+                    adminUser.UserName = adminUserName;
+                    await userManager.UpdateAsync(adminUser);
+                }
+
+                // Đảm bảo admin có thể đăng nhập
+                var token = await userManager.GeneratePasswordResetTokenAsync(adminUser);
+                var resetResult = await userManager.ResetPasswordAsync(adminUser, token, adminPassword);
+
+                if (resetResult.Succeeded)
+                {
+                    Console.WriteLine("Đã cập nhật mật khẩu cho tài khoản admin");
+                }
+
+                // Đảm bảo admin có đủ vai trò
+                if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+                {
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+                if (!await userManager.IsInRoleAsync(adminUser, "User"))
+                {
+                    await userManager.AddToRoleAsync(adminUser, "User");
+                }
+            }
         }
     }
 } 
