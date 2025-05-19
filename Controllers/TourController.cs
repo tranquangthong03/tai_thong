@@ -15,14 +15,33 @@ namespace TravelWebsite.Controllers
         public TourController(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        // GET: Tour
-        public async Task<IActionResult> Index()
+        }        // GET: Tour
+        public async Task<IActionResult> Index(string searchName, decimal? minPrice, decimal? maxPrice)
         {
-            var tours = await _context.Tours
+            var toursQuery = _context.Tours
                 .Include(t => t.Destination)
-                .Where(t => t.IsActive)
+                .Where(t => t.IsActive);
+
+            // Apply search filters if provided
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                toursQuery = toursQuery.Where(t => t.Name.Contains(searchName) || 
+                                                 (t.Description != null && t.Description.Contains(searchName)) ||
+                                                 (t.Destination.Name.Contains(searchName)));
+            }
+
+            if (minPrice.HasValue)
+            {
+                toursQuery = toursQuery.Where(t => t.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                toursQuery = toursQuery.Where(t => t.Price <= maxPrice.Value);
+            }
+
+            // Order the results
+            var tours = await toursQuery
                 .OrderByDescending(t => t.IsPopular)
                 .ThenBy(t => t.Name)
                 .ToListAsync();
