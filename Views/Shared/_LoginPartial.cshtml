@@ -6,6 +6,13 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <li class="nav-item" style="align-self: center;">
+        @if (await UserManager.GetUserAsync(User) != null && (await UserManager.GetUserAsync(User)).ProfilePicture != null)
+        {
+            <img style="width:32px;height:32px; object-fit:cover; border-radius:50%; margin-right:5px" 
+                 src="data:image/*;base64,@(Convert.ToBase64String((await UserManager.GetUserAsync(User)).ProfilePicture))" />
+        }
+    </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-person-circle me-1"></i>
@@ -20,8 +27,14 @@
             @displayName
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" asp-controller="Manage" asp-action="Index"><i class="bi bi-gear me-2"></i>Quản lý tài khoản</a></li>
+            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index"><i class="bi bi-person me-2"></i>Hồ sơ cá nhân</a></li>
             <li><a class="dropdown-item" asp-controller="Booking" asp-action="MyBookings"><i class="bi bi-calendar-check me-2"></i>Đặt tour của tôi</a></li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" asp-controller="RoleManager" asp-action="Index"><i class="bi bi-shield me-2"></i>Quản lý vai trò</a></li>
+                <li><a class="dropdown-item" asp-controller="UserRoles" asp-action="Index"><i class="bi bi-people me-2"></i>Quản lý người dùng</a></li>
+            }
             <li><hr class="dropdown-divider"></li>
             <li>
                 <form class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

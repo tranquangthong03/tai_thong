@@ -43,6 +43,8 @@ namespace TravelWebsite.Controllers
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "User");
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -68,27 +70,64 @@ namespace TravelWebsite.Controllers
         {
             returnUrl ??= Url.Content("~/");
 
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+            // Xóa các thông báo lỗi cũ
+            ModelState.Clear();
 
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                ModelState.AddModelError(string.Empty, "Vui lòng nhập email.");
+                return View(model);
+            }
+
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                ModelState.AddModelError(string.Empty, "Vui lòng nhập mật khẩu.");
+                return View(model);
+            }
+
+            // Kiểm tra xem người dùng có tồn tại không
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Tài khoản không tồn tại.");
+                return View(model);
+            }
+
+            // Thử đăng nhập bằng username thay vì email
+            if (user.UserName != model.Email)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnUrl);
                 }
+            }
 
-                if (result.IsLockedOut)
+            // Nếu không thành công, thử đăng nhập bằng email
+            var emailResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+            if (emailResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+
+            if (emailResult.IsLockedOut)
+            {
+                return RedirectToAction("Lockout");
+            }
+            else
+            {
+                // Kiểm tra mật khẩu
+                var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (!isPasswordCorrect)
                 {
-                    return RedirectToAction("Lockout");
+                    ModelState.AddModelError(string.Empty, "Mật khẩu không chính xác.");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.");
-                    return View(model);
                 }
+                return View(model);
             }
-
-            return View(model);
         }
 
         [HttpPost]

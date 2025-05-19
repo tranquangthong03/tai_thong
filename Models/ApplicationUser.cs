@@ -14,7 +14,7 @@ namespace TravelWebsite.Models
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
         
-        public string? ProfilePicture { get; set; }
+        public byte[]? ProfilePicture { get; set; }
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
