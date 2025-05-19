@@ -1,0 +1,437 @@
+/* Modern Footer CSS */
+
+/* Animation keyframes */
+@keyframes footerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+    }
+}
+
+.modern-footer {
+    position: relative;
+    background: linear-gradient(to bottom, #1a2980, #26d0ce);
+    color: #fff;
+    padding: 0;
+    margin-top: 0;
+    flex-shrink: 0;
+    clear: both;
+    overflow: hidden;
+}
+
+/* Wave effect at the top of the footer */
+.footer-wave {
+    position: relative;
+    height: 150px;
+    width: 100%;
+    z-index: 5;
+    margin-bottom: -10px;
+}
+
+.footer-wave svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.footer-content {
+    position: relative;
+    padding: 60px 0 30px;
+    z-index: 10;
+}
+
+/* Background decoration elements */
+.footer-bg-element {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.footer-bg-circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -50px;
+}
+
+.footer-bg-circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    left: -100px;
+}
+
+/* Floating particles */
+.footer-particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    filter: blur(1px);
+    z-index: 2;
+    animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Footer brand/logo section */
+.footer-brand {
+    margin-bottom: 30px;
+    animation: footerFadeIn 0.6s ease-out forwards;
+}
+
+.footer-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    display: inline-block;
+    background: linear-gradient(to right, #fff, #a6c1ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-tagline {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+    max-width: 80%;
+    opacity: 0.9;
+}
+
+.footer-awards {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.footer-award {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.footer-award:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+/* Footer widget blocks */
+.footer-widget {
+    margin-bottom: 30px;
+    animation: footerFadeIn 0.6s ease-out forwards;
+    animation-delay: calc(var(--widget-order) * 0.1s);
+    opacity: 0;
+}
+
+.footer-heading {
+    position: relative;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #fff, rgba(255,255,255,0.2));
+}
+
+/* Footer links styling */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s;
+    display: inline-block;
+    padding-left: 0;
+}
+
+.footer-link i {
+    margin-right: 10px;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.footer-link:hover {
+    color: #fff;
+    padding-left: 5px;
+}
+
+.footer-link:hover i {
+    transform: translateX(3px);
+}
+
+/* Contact info styling */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.footer-contact-icon {
+    margin-right: 15px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.footer-contact li:hover .footer-contact-icon {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.footer-contact-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Social media links */
+.footer-social {
+    margin-top: 30px;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0d6efd, #083a87);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: all 0.3s;
+    z-index: -1;
+}
+
+.social-link:hover {
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.social-link:hover::before {
+    transform: scale(1);
+}
+
+/* Newsletter subscription form */
+.newsletter-form {
+    position: relative;
+    margin-top: 20px;
+}
+
+.newsletter-input {
+    width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 10px 120px 10px 20px;
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 40px;
+    border-radius: 50px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #0d6efd, #083a87);
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.newsletter-button:hover {
+    background: linear-gradient(135deg, #083a87, #0d6efd);
+    animation: pulseGlow 1.5s infinite;
+}
+
+.newsletter-disclaimer {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Bottom footer section */
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    margin: 20px 0;
+}
+
+.footer-bottom {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 25px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-copyright {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.footer-bottom-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.footer-bottom-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: #fff;
+    transition: all 0.3s;
+    transform: translateX(-50%);
+}
+
+.footer-bottom-link:hover {
+    color: #fff;
+}
+
+.footer-bottom-link:hover::after {
+    width: 80%;
+}
+
+/* Back to top button */
+.back-to-top {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 20;
+}
+
+.back-to-top:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+    .footer-content {
+        padding: 40px 0 20px;
+    }
+    
+    .footer-tagline {
+        max-width: 100%;
+    }
+    
+    .footer-bottom-links {
+        margin-top: 15px;
+        justify-content: flex-start;
+    }
+}

@@ -1,0 +1,290 @@
+/* Animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Destination banner styling */
+.destination-banner {
+    background: linear-gradient(135deg, #0d6efd, #083a87);
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 15px 15px;
+    margin-bottom: 3rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.destination-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.destination-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.destination-title {
+    animation: fadeInUp 0.8s ease forwards;
+    position: relative;
+}
+
+.destination-subtitle {
+    animation: fadeInUp 1s ease forwards;
+    position: relative;
+    opacity: 0.9;
+}
+
+.destination-button {
+    animation: slideInRight 1.2s ease forwards;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+    transition: all 0.3s;
+}
+
+.destination-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+}
+
+/* Filter panel styling */
+.filter-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+    animation: scaleIn 0.8s ease forwards;
+    border-left: 4px solid #0d6efd;
+}
+
+/* Destination card styling */
+.destination-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: calc(var(--animation-order) * 0.1s);
+    opacity: 0;
+}
+
+.destination-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.destination-card .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.destination-card:hover .card-img-overlay {
+    background: linear-gradient(to top, rgba(13, 110, 253, 0.8), transparent);
+}
+
+.destination-card .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    transition: all 0.3s;
+}
+
+.destination-card:hover .badge {
+    background-color: #fff !important;
+    color: #0d6efd !important;
+}
+
+.destination-card .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    transition: all 0.5s;
+}
+
+.destination-card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+.destination-card .card-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.destination-card .card-body {
+    padding: 1.5rem;
+}
+
+.destination-card .location {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.destination-card .location i {
+    margin-right: 0.5rem;
+    color: #0d6efd;
+}
+
+.destination-card .description {
+    color: #495057;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.destination-card .btn-outline-primary {
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s;
+}
+
+.destination-card .btn-outline-primary:hover {
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Admin buttons styling */
+.admin-buttons {
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.destination-card:hover .admin-buttons {
+    opacity: 1;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin: 2rem 0;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: #adb5bd;
+    margin-bottom: 1.5rem;
+}
+
+/* Pagination styling */
+.pagination {
+    margin-top: 2rem;
+    justify-content: center;
+}
+
+.page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.page-link {
+    color: #0d6efd;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+
+/* Stats cards */
+.stats-cards {
+    display: flex;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.stat-card {
+    flex: 1;
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+.stat-card .stat-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .destination-card {
+        margin-bottom: 2rem;
+    }
+    .stats-cards {
+        flex-direction: column;
+    }
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+}

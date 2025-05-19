@@ -18,9 +18,10 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  /* margin-bottom: 60px; Removed for Bootstrap flex sticky footer */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  overflow-x: hidden; /* Prevent horizontal scrollbar from the wave effect */
 }
 
 /* Custom Styles */
@@ -28,9 +29,250 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Original footer styles removed in favor of modern-footer.css */
 .footer {
-  padding: 2rem 0;
-  margin-top: 3rem;
+  display: none; /* Hide in case there are any legacy references */
+}
+
+/* Loại bỏ hiệu ứng wave cho footer */
+.footer:before {
+  display: none;
+}
+
+.footer-spacing {
+  width: 100%;
+  background-color: #1e3a8a;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-top {
+  background-color: #1e3a8a;
+  position: relative;
+  z-index: 1;
+  padding-top: 20px; /* Reduced padding as wave provides initial space */
+  margin-top: 0; /* Remove margin as we're using padding instead */
+  background-size: 100% 100%;
+  z-index: -1; /* Changed to -1 to be behind parent's content */
+}
+
+.footer-bottom {
+  background-color: #152a63;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.footer-heading {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.footer-heading:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: #0d6efd;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-link:hover {
+  color: #fff;
+  padding-left: 5px;
+}
+
+.footer-contact li {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background: #3490dc;
+  color: #fff;
+}
+
+.footer-menu {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.footer-menu a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer-menu a:hover {
+  color: #fff;
+}
+
+/* Newsletter Styling */
+.newsletter-input {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-input .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.newsletter-input .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* New Blue Wave Effect */
+.blue-wave-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+
+.blue-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%231e3a8a' fill-opacity='1' d='M0,96L80,101.3C160,107,320,117,480,128C640,139,800,149,960,154.7C1120,160,1280,160,1360,160L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
+}
+
+.testimonials-section {
+  background-color: #f8f9fa !important;
+  position: relative;
+  padding: 60px 0;
+  margin-bottom: 100px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.testimonials-section:after {
+  display: none; /* Loại bỏ hiệu ứng wave */
+}
+
+.testimonials-section .row {
+  position: relative;
+  z-index: 10; /* Much higher than the wave and footer */
+}
+
+.testimonials-section .container {
+  position: relative;
+  z-index: 10; /* Higher than the wave effect and footer (internal to testimonials-section) */
+}
+
+.testimonials-container {
+  position: relative;
+  z-index: 20;
+  padding-bottom: 40px;
+}
+
+.testimonials-row {
+  position: relative;
+  z-index: 25; /* Very high z-index to ensure it stays on top */
+  margin-bottom: 60px; /* Create more space at the bottom */
+}
+
+/* Review cards styling */
+.review-card {
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  border: none;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.review-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.review-card .card-body {
+  position: relative;
+  padding: 25px;
+}
+
+.review-card .text-warning {
+  font-size: 1.2rem;
+}
+
+.review-card .card-text {
+  margin-bottom: 25px;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.review-card img.rounded-circle {
+  border: 3px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+/* Call to Action section styling */
+.cta-section {
+  margin: 60px 0; /* Space above and below CTA */
+  position: static;
+  background: linear-gradient(135deg, #0d6efd, #0954c9);
+  padding: 40px 0; 
+  border-radius: 10px; /* Làm tròn góc */
+}
+
+/* Section padding to prevent footer overlap */
+section:last-of-type {
+  margin-bottom: 20px; /* Add a small margin for separation */
+  padding-bottom: 80px; /* Increased padding to create more space */
 }
 
 .card {
@@ -152,4 +394,34 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* Responsive Footer Adjustments */
+@media (max-width: 767px) {
+  .footer-heading {
+    margin-top: 20px;
+  }
+  
+  .social-links {
+    margin-bottom: 20px;
+  }
+  
+  .footer-menu {
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .copyright {
+    text-align: center;
+  }
+  
+  .newsletter .input-group {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-menu {
+    justify-content: center;
+  }
 }
