@@ -39,7 +39,7 @@ namespace TravelWebsite.Data
                     Description = "Thành phố biển xinh đẹp với bãi biển Mỹ Khê nổi tiếng",
                     Country = "Việt Nam",
                     City = "Đà Nẵng", 
-                    ImageUrl = "https://images.unsplash.com/photo-1560804255-e8a0205c9d02",
+                    ImageUrl = "/images/destinations/danang.jpg",
                     Rating = 4.8m,
                     IsPopular = true,
                     IsActive = true
@@ -50,7 +50,7 @@ namespace TravelWebsite.Data
                     Description = "Vịnh Hạ Long - Di sản thiên nhiên thế giới với hàng nghìn hòn đảo đá vôi",
                     Country = "Việt Nam",
                     City = "Quảng Ninh",
-                    ImageUrl = "https://images.unsplash.com/photo-1528127269322-539801943592",
+                    ImageUrl = "/images/destinations/halong.jpg",
                     Rating = 4.9m,
                     IsPopular = true,
                     IsActive = true
@@ -61,7 +61,7 @@ namespace TravelWebsite.Data
                     Description = "Phố cổ Hội An với đèn lồng và kiến trúc truyền thống",
                     Country = "Việt Nam",
                     City = "Quảng Nam",
-                    ImageUrl = "https://images.unsplash.com/photo-1564322955382-5dfa5635c6b4",
+                    ImageUrl = "/images/destinations/hoian.jpg",
                     Rating = 4.7m,
                     IsPopular = true,
                     IsActive = true
@@ -72,7 +72,7 @@ namespace TravelWebsite.Data
                     Description = "Cố đô Huế với các di tích lịch sử và văn hóa",
                     Country = "Việt Nam",
                     City = "Thừa Thiên Huế",
-                    ImageUrl = "https://images.unsplash.com/photo-1558182722-3ad16906387c",
+                    ImageUrl = "/images/destinations/hue.jpg",
                     Rating = 4.5m,
                     IsPopular = true,
                     IsActive = true
@@ -83,7 +83,7 @@ namespace TravelWebsite.Data
                     Description = "Thành phố ngàn hoa với khí hậu mát mẻ quanh năm",
                     Country = "Việt Nam",
                     City = "Lâm Đồng",
-                    ImageUrl = "https://images.unsplash.com/photo-1570794742805-8bad969c3b89",
+                    ImageUrl = "/images/destinations/dalat.jpg",
                     Rating = 4.6m,
                     IsPopular = true,
                     IsActive = true
@@ -94,7 +94,7 @@ namespace TravelWebsite.Data
                     Description = "Thiên đường biển với bãi cát trắng và nước trong xanh",
                     Country = "Việt Nam",
                     City = "Khánh Hòa",
-                    ImageUrl = "https://images.unsplash.com/photo-1551374139-45bde722ef61",
+                    ImageUrl = "/images/destinations/nhatrang.jpg",
                     Rating = 4.4m,
                     IsPopular = true,
                     IsActive = true

@@ -32,58 +32,133 @@
     }
 }
 
-/* Destination banner styling */
+/* Destination CSS */
+
 .destination-banner {
-    background: linear-gradient(135deg, #0d6efd, #083a87);
+    background: linear-gradient(to right, #4a6bdc, #6c8ff8);
     position: relative;
     overflow: hidden;
-    border-radius: 0 0 15px 15px;
-    margin-bottom: 3rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    padding: 3rem 0;
+    border-radius: 0 0 10px 10px;
 }
 
 .destination-banner::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://source.unsplash.com/1600x800/?travel,map');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
 }
 
-.destination-banner::after {
-    content: '';
-    position: absolute;
-    bottom: -80px;
-    left: -80px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
+.destination-banner .container {
+    position: relative;
+    z-index: 1;
 }
 
 .destination-title {
-    animation: fadeInUp 0.8s ease forwards;
-    position: relative;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 
 .destination-subtitle {
-    animation: fadeInUp 1s ease forwards;
-    position: relative;
     opacity: 0.9;
 }
 
-.destination-button {
-    animation: slideInRight 1.2s ease forwards;
-    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
-    transition: all 0.3s;
+/* Card styles */
+.card {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.destination-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-img-top {
+    transition: all 0.5s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+/* Tabs styling */
+.nav-tabs {
+    border-bottom: 2px solid #e9ecef;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 10px 20px;
+    margin-right: 5px;
+}
+
+.nav-tabs .nav-link:hover {
+    border: none;
+    color: #4a6bdc;
+}
+
+.nav-tabs .nav-link.active {
+    color: #4a6bdc;
+    background: none;
+    border: none;
+    border-bottom: 3px solid #4a6bdc;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.empty-state i {
+    font-size: 5rem;
+    color: #e9ecef;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .destination-title {
+        font-size: 2rem;
+    }
+    
+    .destination-banner {
+        padding: 2rem 0;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
 }
 
 /* Filter panel styling */
@@ -193,31 +268,6 @@
 
 .destination-card:hover .admin-buttons {
     opacity: 1;
-}
-
-/* Empty state styling */
-.empty-state {
-    text-align: center;
-    padding: 3rem;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    margin: 2rem 0;
-}
-
-.empty-state i {
-    font-size: 4rem;
-    color: #dee2e6;
-    margin-bottom: 1rem;
-}
-
-.empty-state h3 {
-    color: #6c757d;
-    margin-bottom: 1rem;
-}
-
-.empty-state p {
-    color: #adb5bd;
-    margin-bottom: 1.5rem;
 }
 
 /* Pagination styling */

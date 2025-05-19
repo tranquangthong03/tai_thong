@@ -34,156 +34,111 @@
     </div>
 </div>
 
-<div class="container">
-    <!-- Thống kê -->
-    <div class="stats-cards">
-        <div class="stat-card">
-            <i class="bi bi-globe"></i>
-            <div class="stat-value">@Model.Select(d => d.Country).Distinct().Count()</div>
-            <div class="stat-label">Quốc gia</div>
+<!-- Điểm đến phổ biến -->
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h2 class="fw-bold">Điểm đến phổ biến</h2>
+            <p class="text-muted">Khám phá những địa điểm được yêu thích nhất của chúng tôi</p>
         </div>
-        <div class="stat-card">
-            <i class="bi bi-geo-alt"></i>
-            <div class="stat-value">@Model.Count()</div>
-            <div class="stat-label">Điểm đến</div>
-        </div>
-        <div class="stat-card">
-            <i class="bi bi-star"></i>
-            <div class="stat-value">@(Model.Any() ? Model.Average(d => d.Rating).ToString("0.0") : "0.0")</div>
-            <div class="stat-label">Đánh giá trung bình</div>
-        </div>
-        <div class="stat-card">
-            <i class="bi bi-camera"></i>
-            <div class="stat-value">@(new Random().Next(1000, 10000))</div>
-            <div class="stat-label">Hình ảnh</div>
-        </div>
-    </div>
-
-    <!-- Filter options -->
-    <div class="filter-panel p-4 mb-5">
-        <h5 class="mb-3"><i class="bi bi-funnel me-2"></i>Bộ lọc</h5>
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label for="countryFilter" class="form-label">Quốc gia:</label>
-                <select class="form-select" id="countryFilter">
-                    <option value="">Tất cả quốc gia</option>
-                    @foreach (var country in Model.Select(d => d.Country).Distinct().OrderBy(c => c))
-                    {
-                        <option value="@country">@country</option>
-                    }
-                </select>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="ratingFilter" class="form-label">Đánh giá:</label>
-                <select class="form-select" id="ratingFilter">
-                    <option value="">Tất cả đánh giá</option>
-                    <option value="5">5 sao</option>
-                    <option value="4">4+ sao</option>
-                    <option value="3">3+ sao</option>
-                </select>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="sortFilter" class="form-label">Sắp xếp:</label>
-                <select class="form-select" id="sortFilter">
-                    <option value="nameAsc">Tên (A-Z)</option>
-                    <option value="nameDesc">Tên (Z-A)</option>
-                    <option value="ratingDesc">Đánh giá (Cao-Thấp)</option>
-                    <option value="ratingAsc">Đánh giá (Thấp-Cao)</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-12">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="popularFilter">
-                    <label class="form-check-label" for="popularFilter">Chỉ hiện điểm đến phổ biến</label>
-                </div>
-            </div>
+        <div class="col-lg-4 text-end">
+            <a href="#" class="btn btn-outline-primary">Xem tất cả <i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 
     <!-- Hiển thị trống nếu không có điểm đến -->
     @if (!Model.Any())
     {
-        <div class="empty-state">
-            <i class="bi bi-map"></i>
-            <h3>Chưa có điểm đến nào</h3>
-            <p>Hãy thêm điểm đến đầu tiên để bắt đầu cuộc phiêu lưu của bạn!</p>
-            <a asp-action="Create" class="btn btn-primary">Thêm điểm đến</a>
+        <div class="empty-state py-5">
+            <i class="bi bi-map display-1"></i>
+            <h3 class="mt-3">Chưa có điểm đến nào</h3>
+            <p class="text-muted">Hãy thêm điểm đến đầu tiên để bắt đầu cuộc phiêu lưu của bạn!</p>
+            <a asp-action="Create" class="btn btn-primary mt-2">Thêm điểm đến</a>
         </div>
     }
     else
     {
-        <!-- Destinations Grid -->
-        <div class="row destinations-grid" id="destinationsContainer">
-            @{
-                int i = 0;
-            }
-            @foreach (var item in Model)
+        <div class="row g-4">
+            @foreach (var item in Model.Where(d => d.IsPopular).Take(6))
             {
-                <div class="col-lg-4 col-md-6 mb-4 destination-item" 
-                     data-country="@(item.Country?.ToLower() ?? "")" 
-                     data-rating="@item.Rating" 
-                     data-popularity="@(new Random().Next(7, 11))"
-                     style="--animation-order:@(i++)">
-                    <div class="card h-100 shadow-sm border-0 destination-card">
-                        <div class="position-relative overflow-hidden">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="position-relative">
                             @if (string.IsNullOrEmpty(item.ImageUrl))
                             {
-                                <img src="https://source.unsplash.com/600x400/?travel,@(item.Name)" class="card-img-top" alt="@item.Name">
+                                <img src="https://source.unsplash.com/600x400/?travel,@(item.Name)" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
                             }
                             else
                             {
-                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
                             }
-                            <div class="badge bg-light text-primary rounded-pill py-2 px-3">
-                                <i class="bi bi-star-fill me-1"></i>@item.Rating.ToString("0.0")
-                            </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <p class="location">
-                                <i class="bi bi-geo-alt-fill"></i>@item.City, @item.Country
-                            </p>
-                            <p class="description">@(item.Description != null && item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary">
-                                    <i class="bi bi-info-circle me-1"></i>Chi tiết
-                                </a>
-                                <div class="admin-buttons">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm me-1">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">@item.Name</h5>
+                                <span class="badge bg-primary">@item.Rating.ToString("0.00") <i class="bi bi-star-fill"></i></span>
                             </div>
+                            <p class="card-text text-muted mb-2">@item.Country, @item.City</p>
+                            <p class="card-text small">@(item.Description != null && item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                Xem chi tiết
+                            </a>
                         </div>
                     </div>
                 </div>
             }
         </div>
-
-        <!-- Pagination (mẫu) -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     }
+</div>
+
+<!-- Destinations by Country - Display like tabs -->
+<div class="container py-5 bg-light mt-5">
+    <h2 class="fw-bold mb-4">Điểm đến theo quốc gia</h2>
+    
+    <ul class="nav nav-tabs" id="countryTabs" role="tablist">
+        @{
+            var countries = Model.Select(d => d.Country).Distinct().Take(5).ToList();
+            for (int i = 0; i < countries.Count; i++)
+            {
+                var country = countries[i];
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(i == 0 ? "active" : "")" id="@country-tab" data-bs-toggle="tab" 
+                            data-bs-target="#@country-tab-pane" type="button" role="tab" 
+                            aria-controls="@country-tab-pane" aria-selected="@(i == 0 ? "true" : "false")">
+                        @country
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+    
+    <div class="tab-content" id="countryTabsContent">
+        @{
+            for (int i = 0; i < countries.Count; i++)
+            {
+                var country = countries[i];
+                <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="@country-tab-pane" role="tabpanel" 
+                     aria-labelledby="@country-tab" tabindex="0">
+                    <div class="row mt-4">
+                        @foreach (var item in Model.Where(d => d.Country == country).Take(3))
+                        {
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? $"https://source.unsplash.com/600x400/?{item.Name}" : item.ImageUrl)" 
+                                         class="card-img-top" alt="@item.Name" style="height: 180px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.Name</h5>
+                                        <p class="card-text small">@(item.Description?.Substring(0, Math.Min(80, item.Description.Length)) ?? "")</p>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">Xem thêm</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>
 
 <!-- Bổ sung JavaScript để xử lý bộ lọc -->
@@ -198,92 +153,43 @@
                 const popular = $('#popularFilter').is(':checked');
 
                 $('.destination-item').each(function() {
-                    let show = true;
-                    const item = $(this);
-                    
-                    // Lọc theo quốc gia
-                    if (country && !item.data('country').includes(country.toLowerCase())) {
-                        show = false;
-                    }
-                    
-                    // Lọc theo đánh giá
-                    if (rating && item.data('rating') < parseInt(rating)) {
-                        show = false;
-                    }
-                    
-                    // Lọc theo độ phổ biến
-                    if (popular && item.data('popularity') < 9) {
-                        show = false;
-                    }
-                    
-                    // Hiển thị hoặc ẩn item
-                    if (show) {
-                        item.fadeIn(300);
-                    } else {
-                        item.fadeOut(300);
-                    }
-                });
+                    const itemCountry = $(this).data('country');
+                    const itemRating = $(this).data('rating');
+                    const itemPopularity = $(this).data('popularity');
 
-                // Kiểm tra nếu không có kết quả nào
-                setTimeout(function() {
-                    if ($('.destination-item:visible').length === 0) {
-                        if ($('#no-results').length === 0) {
-                            $('#destinationsContainer').append('<div id="no-results" class="col-12 text-center py-5"><i class="bi bi-search display-1 text-muted"></i><h4>Không tìm thấy kết quả</h4><p class="text-muted">Vui lòng thử lại với bộ lọc khác</p></div>');
-                        }
-                    } else {
-                        $('#no-results').remove();
-                    }
-                }, 400);
+                    let show = true;
+                    
+                    if (country && itemCountry !== country) show = false;
+                    if (rating && itemRating < rating) show = false;
+                    if (popular && itemPopularity < 9) show = false;
+                    
+                    $(this).toggle(show);
+                });
             }
-            
-            // Gắn sự kiện cho các bộ lọc
-            $('#countryFilter, #ratingFilter, #sortFilter').change(filterDestinations);
+
+            // Gắn sự kiện cho các thay đổi bộ lọc
+            $('#countryFilter, #ratingFilter').change(filterDestinations);
             $('#popularFilter').click(filterDestinations);
-            $('#searchDestination').on('input', function() {
-                const searchVal = $(this).val().toLowerCase();
-                
-                $('.destination-item').each(function() {
-                    const title = $(this).find('.card-title').text().toLowerCase();
-                    const location = $(this).find('.location').text().toLowerCase();
-                    
-                    if (title.includes(searchVal) || location.includes(searchVal)) {
-                        $(this).fadeIn(300);
-                    } else {
-                        $(this).fadeOut(300);
-                    }
-                });
-            });
-            
-            // Sắp xếp các điểm đến
+
+            // Xử lý sắp xếp
             $('#sortFilter').change(function() {
-                const sortBy = $(this).val();
-                const container = $('#destinationsContainer');
+                const sortValue = $(this).val();
+                const destinations = $('.destination-item').get();
                 
-                let items = $('.destination-item').get();
-                
-                // Sắp xếp items theo tiêu chí
-                items.sort(function(a, b) {
-                    const aTitle = $(a).find('.card-title').text();
-                    const bTitle = $(b).find('.card-title').text();
-                    const aRating = parseFloat($(a).data('rating'));
-                    const bRating = parseFloat($(b).data('rating'));
-                    
-                    switch(sortBy) {
-                        case 'nameAsc':
-                            return aTitle.localeCompare(bTitle);
-                        case 'nameDesc':
-                            return bTitle.localeCompare(aTitle);
-                        case 'ratingDesc':
-                            return bRating > aRating ? -1 : bRating < aRating ? 1 : 0;
-                        case 'ratingAsc':
-                            return aRating > bRating ? -1 : aRating < bRating ? 1 : 0;
-                        default:
-                            return 0;
+                destinations.sort(function(a, b) {
+                    if (sortValue === 'nameAsc') {
+                        return $(a).find('.card-title').text().localeCompare($(b).find('.card-title').text());
+                    } else if (sortValue === 'nameDesc') {
+                        return $(b).find('.card-title').text().localeCompare($(a).find('.card-title').text());
+                    } else if (sortValue === 'ratingDesc') {
+                        return $(b).data('rating') - $(a).data('rating');
+                    } else if (sortValue === 'ratingAsc') {
+                        return $(a).data('rating') - $(b).data('rating');
                     }
                 });
                 
-                // Xóa các items hiện tại và thêm lại theo thứ tự mới
-                $.each(items, function(i, item) {
+                const container = $('#destinationsContainer');
+                $.each(destinations, function(i, item) {
                     container.append(item);
                 });
             });
