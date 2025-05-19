@@ -1,0 +1,71 @@
+@model TravelWebsite.Models.Tour
+@{
+    ViewData["Title"] = "Xóa Tour";
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Tour" asp-action="Index">Tour du lịch</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Xóa</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title mb-0">Xác nhận xóa?</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i> Bạn có chắc chắn muốn xóa tour du lịch này không? Thao tác này sẽ ẩn tour và không thể hoàn tác.
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? $"https://source.unsplash.com/random/400x300/?travel,{Model.Name}" : Model.ImageUrl)" 
+                                 class="img-fluid rounded" alt="@Model.Name" style="width: 100%; object-fit: cover;">
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="mb-3">@Model.Name</h4>
+                            <div class="mb-2">
+                                <strong>Điểm đến:</strong> @Model.Destination.Name, @Model.Destination.Country
+                            </div>
+                            <div class="mb-2">
+                                <strong>Giá:</strong> @Model.Price.ToString("N0") VNĐ
+                            </div>
+                            <div class="mb-2">
+                                <strong>Thời gian:</strong> @(Model.Duration.HasValue ? $"{Model.Duration} ngày" : "Không xác định")
+                            </div>
+                            <div class="mb-2">
+                                <strong>Trạng thái:</strong> @(Model.IsActive ? "Đang hoạt động" : "Đã vô hiệu hóa")
+                            </div>
+                            <div class="mb-2">
+                                <strong>Tour phổ biến:</strong> @(Model.IsPopular ? "Có" : "Không")
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Delete" method="post" class="mt-4">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Quay lại
+                            </a>
+                            <div>
+                                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                                    <i class="bi bi-eye me-1"></i> Xem chi tiết
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash me-1"></i> Xác nhận xóa
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
