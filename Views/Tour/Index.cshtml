@@ -23,7 +23,7 @@
             </div>
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="position-relative" data-aos="fade-left">
-                    <img src="https://source.unsplash.com/random/600x400/?travel,tour" alt="Tour Du Lịch" class="img-fluid rounded-3 shadow-lg" style="border: 5px solid rgba(255,255,255,0.2);">
+                    <img src="@Url.Content("~/images/general/banner-tour.jpg")" alt="Tour Du Lịch" class="img-fluid rounded-3 shadow-lg" style="border: 5px solid rgba(255,255,255,0.2);">
                     <div class="position-absolute top-0 end-0 translate-middle-y p-3 bg-white rounded-circle shadow-lg" style="margin-right: -20px;">
                         <i class="bi bi-airplane-fill text-danger" style="font-size: 2rem;"></i>
                     </div>
@@ -123,7 +123,12 @@
                      data-popular="@tour.IsPopular.ToString().ToLower()">
                     <div class="card h-100 border-0 shadow-sm tour-card">
                         <div class="position-relative">
-                            <img src="@(string.IsNullOrEmpty(tour.ImageUrl) ? $"https://source.unsplash.com/random/800x600/?travel,{tour.Name}" : tour.ImageUrl)" 
+                            @{
+                                var tourIndex = Array.IndexOf(new[] { "Khám phá Đà Nẵng 3 ngày 2 đêm", "Du ngoạn Vịnh Hạ Long", "Khám phá Phố cổ Hội An", "Khám phá Cố đô Huế", "Đà Lạt mộng mơ", "Khám phá biển Nha Trang" }, tour.Name) + 1;
+                                var imageIndex = tourIndex > 0 ? tourIndex : (tour.Id % 6) + 1;
+                            }
+                            <img src="@Url.Content($"~/images/tours/tour-{imageIndex}.jpg")" 
+                                 onerror="this.onerror=null;this.src=@(string.IsNullOrEmpty(tour.ImageUrl) ? "'https://placehold.co/600x400?text=No+Image'" : $"'{tour.ImageUrl}'")"
                                  class="card-img-top" alt="@tour.Name">
                             <div class="tour-card-overlay"></div>
                             <div class="tour-price">

@@ -125,17 +125,15 @@
                      data-country="@(item.Country?.ToLower() ?? "")" 
                      data-rating="@item.Rating" 
                      data-popularity="@(new Random().Next(7, 11))"
-                     style="--animation-order:@(i++)">
-                    <div class="card h-100 shadow-sm border-0 destination-card">
-                        <div class="position-relative overflow-hidden">
-                            @if (string.IsNullOrEmpty(item.ImageUrl))
-                            {
-                                <img src="https://source.unsplash.com/600x400/?travel,@(item.Name)" class="card-img-top" alt="@item.Name">
+                     style="--animation-order:@(i++)">                    <div class="card h-100 shadow-sm border-0 destination-card">                        <div class="position-relative overflow-hidden">
+                            <!-- Sử dụng hình ảnh local từ thư mục destination dựa vào tên -->
+                            @{
+                                var destinationIndex = Array.IndexOf(new[] { "Đà Nẵng", "Hạ Long", "Hội An", "Huế", "Đà Lạt", "Nha Trang" }, item.Name) + 1;
+                                var imageIndex = destinationIndex > 0 ? destinationIndex : (i % 6) + 1;
                             }
-                            else
-                            {
-                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
-                            }
+                            <img src="@Url.Content($"~/images/destinations/destination-{imageIndex}.jpg")" 
+                                 onerror="this.onerror=null;this.src=@(string.IsNullOrEmpty(item.ImageUrl) ? "'https://placehold.co/600x400?text=No+Image'" : $"'{item.ImageUrl}'")"
+                                 class="card-img-top" alt="@item.Name">
                             <div class="badge bg-light text-primary rounded-pill py-2 px-3">
                                 <i class="bi bi-star-fill me-1"></i>@item.Rating.ToString("0.0")
                             </div>

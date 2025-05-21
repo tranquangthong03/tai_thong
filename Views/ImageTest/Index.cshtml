@@ -1,0 +1,160 @@
+@{
+    ViewData["Title"] = "Kiểm tra hình ảnh";
+    var destinations = ViewData["Destinations"] as List<TravelWebsite.Models.Destination>;
+    var imageFiles = ViewData["ImageFiles"] as List<string>;
+}
+
+<div class="container py-5">
+    <h1>Kiểm tra hình ảnh điểm đến</h1>
+    <hr />
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Dữ liệu điểm đến trong database</h5>
+                </div>
+                <div class="card-body">
+                    @if (destinations != null && destinations.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên</th>
+                                    <th>Quốc gia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var dest in destinations)
+                                {
+                                    <tr>
+                                        <td>@dest.Id</td>
+                                        <td>@dest.Name</td>
+                                        <td>@dest.Country</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">Không có dữ liệu điểm đến</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Hình ảnh trong thư mục destinations</h5>
+                </div>
+                <div class="card-body">
+                    @if (imageFiles != null && imageFiles.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tên tệp</th>
+                                    <th>Hình ảnh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var file in imageFiles)
+                                {
+                                    <tr>
+                                        <td>@file</td>
+                                        <td>
+                                            <img src="@Url.Content($"~/images/destinations/{file}")" 
+                                                 style="height: 60px; width: auto;" class="img-thumbnail" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">Không tìm thấy hình ảnh trong thư mục destinations</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Phương pháp sửa lỗi đề xuất</h2>
+    <p class="alert alert-info">
+        Để sửa lỗi hình ảnh không hiển thị, hãy cập nhật tệp <code>Views/Destination/Index.cshtml</code> 
+        và thay đổi phần hiển thị hình ảnh để ánh xạ tên điểm đến với số thứ tự của file.
+    </p>
+
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Ánh xạ điểm đến với hình ảnh</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Điểm đến</th>
+                        <th>File hình ảnh</th>
+                        <th>Xem trước</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var mappings = new Dictionary<string, string>
+                        {
+                            { "Đà Nẵng", "destination-1.jpg" },
+                            { "Hạ Long", "destination-2.jpg" },
+                            { "Hội An", "destination-3.jpg" },
+                            { "Huế", "destination-4.jpg" },
+                            { "Đà Lạt", "destination-5.jpg" },
+                            { "Nha Trang", "destination-6.jpg" }
+                        };
+                    }
+
+                    @foreach (var mapping in mappings)
+                    {
+                        <tr>
+                            <td>@mapping.Key</td>
+                            <td>@mapping.Value</td>
+                            <td>
+                                <img src="@Url.Content($"~/images/destinations/{mapping.Value}")" 
+                                     style="height: 60px; width: auto;" class="img-thumbnail" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Mã đề xuất cần thay đổi</h5>
+        </div>
+        <div class="card-body">
+            <pre><code>@Html.Raw(@"
+<!-- Sử dụng hình ảnh local từ thư mục destination dựa vào tên -->
+@{
+    string imageFile;
+    switch(item.Name)
+    {
+        case ""Đà Nẵng"": imageFile = ""destination-1.jpg""; break;
+        case ""Hạ Long"": imageFile = ""destination-2.jpg""; break;
+        case ""Hội An"": imageFile = ""destination-3.jpg""; break;
+        case ""Huế"": imageFile = ""destination-4.jpg""; break;
+        case ""Đà Lạt"": imageFile = ""destination-5.jpg""; break;
+        case ""Nha Trang"": imageFile = ""destination-6.jpg""; break;
+        default: imageFile = $""destination-{(i % 6) + 1}.jpg""; break;
+    }
+}
+<img src=""@Url.Content($""~/images/destinations/{imageFile}"")"" 
+     onerror=""this.onerror=null;this.src=@(string.IsNullOrEmpty(item.ImageUrl) ? '\'https://placehold.co/600x400?text=No+Image\'' : $'\'{item.ImageUrl}\'')""
+     class=""card-img-top"" alt=""@item.Name"">
+")</code></pre>
+        </div>
+    </div>
+</div>

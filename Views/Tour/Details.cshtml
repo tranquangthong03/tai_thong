@@ -15,7 +15,12 @@
     <div class="row mb-5">
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm overflow-hidden">
-                <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? $"https://source.unsplash.com/random/1200x800/?travel,{Model.Name}" : Model.ImageUrl)" 
+                @{
+                    var tourIndex = Array.IndexOf(new[] { "Khám phá Đà Nẵng 3 ngày 2 đêm", "Du ngoạn Vịnh Hạ Long", "Khám phá Phố cổ Hội An", "Khám phá Cố đô Huế", "Đà Lạt mộng mơ", "Khám phá biển Nha Trang" }, Model.Name) + 1;
+                    var imageIndex = tourIndex > 0 ? tourIndex : (Model.Id % 6) + 1;
+                }
+                <img src="@Url.Content($"~/images/tours/tour-{imageIndex}.jpg")" 
+                     onerror="this.onerror=null;this.src=@(string.IsNullOrEmpty(Model.ImageUrl) ? "'https://placehold.co/1200x800?text=No+Image'" : $"'{Model.ImageUrl}'")"
                      class="card-img-top" alt="@Model.Name" style="height: 400px; object-fit: cover;">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
