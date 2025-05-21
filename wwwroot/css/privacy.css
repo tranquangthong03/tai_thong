@@ -1,0 +1,75 @@
+/* Modern Privacy Policy Page Styles */
+.privacy-hero {
+    background: linear-gradient(135deg, #1e3a8a 60%, #26d0ce 100%);
+    color: #fff;
+    padding: 60px 0 40px 0;
+    border-radius: 0 0 32px 32px;
+    box-shadow: 0 8px 32px rgba(30,58,138,0.08);
+    position: relative;
+    overflow: hidden;
+}
+.privacy-hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.privacy-hero p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+.privacy-section {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(30,58,138,0.06);
+    padding: 2.5rem 2rem;
+    margin-top: -40px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 0.7s;
+}
+.privacy-section h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.privacy-section h2 i {
+    color: #26d0ce;
+    font-size: 1.2rem;
+}
+.privacy-section ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.2rem;
+}
+.privacy-section li {
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+.privacy-section a {
+    color: #1e3a8a;
+    text-decoration: underline;
+}
+.privacy-section a:hover {
+    color: #26d0ce;
+}
+.privacy-icon {
+    color: #26d0ce;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+@media (max-width: 767.98px) {
+    .privacy-section {
+        padding: 1.2rem 0.7rem;
+    }
+    .privacy-hero {
+        padding: 40px 0 24px 0;
+    }
+    .privacy-hero h1 {
+        font-size: 2rem;
+    }
+}

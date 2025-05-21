@@ -1,71 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Chính sách bảo mật";
 }
-
-<div class="container py-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="mb-4">@ViewData["Title"]</h1>
-            <p class="lead">
-                Trang web của chúng tôi coi trọng việc bảo mật thông tin của khách hàng. Chính sách bảo mật này mô tả cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn.
-            </p>
-            
-            <h2 class="mt-5 mb-3">Thu thập thông tin</h2>
-            <p>
-                Chúng tôi có thể thu thập các thông tin sau từ bạn:
-            </p>
-            <ul>
-                <li>Thông tin cá nhân như tên, địa chỉ email, số điện thoại, địa chỉ khi bạn đăng ký tài khoản hoặc đặt tour.</li>
-                <li>Thông tin giao dịch liên quan đến việc mua hàng hoặc đặt tour trên trang web của chúng tôi.</li>
-                <li>Thông tin kỹ thuật như địa chỉ IP, loại trình duyệt, nhà cung cấp dịch vụ internet (ISP) và các dữ liệu tương tự.</li>
-            </ul>
-            
-            <h2 class="mt-5 mb-3">Sử dụng thông tin</h2>
-            <p>
-                Chúng tôi sử dụng thông tin thu thập được cho các mục đích sau:
-            </p>
-            <ul>
-                <li>Cung cấp và quản lý tài khoản của bạn.</li>
-                <li>Xử lý và hoàn tất các đơn đặt tour của bạn.</li>
-                <li>Gửi thông tin về các ưu đãi, khuyến mãi hoặc cập nhật khi bạn đăng ký nhận bản tin.</li>
-                <li>Cải thiện trang web và dịch vụ của chúng tôi.</li>
-                <li>Liên hệ với bạn về tài khoản hoặc phản hồi các yêu cầu hỗ trợ.</li>
-            </ul>
-            
-            <h2 class="mt-5 mb-3">Bảo vệ thông tin</h2>
-            <p>
-                Chúng tôi thực hiện các biện pháp an ninh hợp lý để bảo vệ thông tin cá nhân của bạn khỏi bị truy cập trái phép, thay đổi, tiết lộ hoặc phá hủy. Tuy nhiên, không có phương thức truyền tải dữ liệu qua internet hoặc phương pháp lưu trữ điện tử nào là an toàn 100%. Do đó, chúng tôi không thể đảm bảo an ninh tuyệt đối cho thông tin của bạn.
-            </p>
-            
-            <h2 class="mt-5 mb-3">Chia sẻ thông tin</h2>
-            <p>
-                Chúng tôi không bán, trao đổi hoặc chuyển giao thông tin cá nhân của bạn cho bên thứ ba. Điều này không bao gồm các bên thứ ba đáng tin cậy hỗ trợ chúng tôi vận hành trang web, cung cấp dịch vụ cho bạn, miễn là các bên đồng ý giữ bí mật thông tin này.
-            </p>
-            
-            <h2 class="mt-5 mb-3">Cookie</h2>
-            <p>
-                Trang web của chúng tôi sử dụng cookie để cải thiện trải nghiệm của bạn. Cookie là các tệp nhỏ được lưu trữ trên thiết bị của bạn, giúp nhận diện trình duyệt của bạn và ghi nhớ thông tin như ngôn ngữ ưa thích và các tùy chọn khác.
-            </p>
-            
-            <h2 class="mt-5 mb-3">Quyền của bạn</h2>
-            <p>
-                Bạn có quyền:
-            </p>
-            <ul>
-                <li>Truy cập, sửa đổi hoặc xóa thông tin cá nhân của mình.</li>
-                <li>Từ chối việc xử lý thông tin cá nhân của bạn.</li>
-                <li>Yêu cầu cung cấp bản sao thông tin cá nhân mà chúng tôi lưu giữ về bạn.</li>
-            </ul>
-            
-            <h2 class="mt-5 mb-3">Thay đổi chính sách</h2>
-            <p>
-                Chúng tôi có thể cập nhật chính sách bảo mật này theo thời gian. Chúng tôi sẽ thông báo cho bạn về bất kỳ thay đổi nào bằng cách đăng chính sách mới trên trang này.
-            </p>
-            
-            <h2 class="mt-5 mb-3">Liên hệ</h2>
-            <p>
-                Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật của chúng tôi, vui lòng liên hệ với chúng tôi qua email: <a href="mailto:info@travelwebsite.com">info@travelwebsite.com</a>
-            </p>
-        </div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
+}
+<div class="privacy-hero text-center">
+    <div class="container">
+        <h1><i class="bi bi-shield-lock-fill privacy-icon"></i>@ViewData["Title"]</h1>
+        <p class="mb-0">Chúng tôi cam kết bảo vệ thông tin cá nhân và quyền riêng tư của bạn khi sử dụng dịch vụ.</p>
+    </div>
+</div>
+<div class="container">
+    <div class="privacy-section mx-auto my-4" style="max-width: 820px;">
+        <h2><i class="bi bi-person-lines-fill"></i> Thu thập thông tin</h2>
+        <p>Chúng tôi có thể thu thập các thông tin sau từ bạn:</p>
+        <ul>
+            <li>Thông tin cá nhân như tên, email, số điện thoại, địa chỉ khi bạn đăng ký tài khoản hoặc đặt tour.</li>
+            <li>Thông tin giao dịch liên quan đến việc mua hàng hoặc đặt tour trên website.</li>
+            <li>Thông tin kỹ thuật như địa chỉ IP, loại trình duyệt, ISP và các dữ liệu tương tự.</li>
+        </ul>
+        <h2><i class="bi bi-gear"></i> Sử dụng thông tin</h2>
+        <p>Chúng tôi sử dụng thông tin thu thập được cho các mục đích:</p>
+        <ul>
+            <li>Cung cấp và quản lý tài khoản của bạn.</li>
+            <li>Xử lý và hoàn tất các đơn đặt tour.</li>
+            <li>Gửi thông tin ưu đãi, khuyến mãi hoặc cập nhật khi bạn đăng ký nhận bản tin.</li>
+            <li>Cải thiện website và dịch vụ.</li>
+            <li>Liên hệ với bạn về tài khoản hoặc hỗ trợ.</li>
+        </ul>
+        <h2><i class="bi bi-shield-check"></i> Bảo vệ thông tin</h2>
+        <p>Chúng tôi thực hiện các biện pháp an ninh hợp lý để bảo vệ thông tin cá nhân khỏi truy cập trái phép, thay đổi, tiết lộ hoặc phá hủy. Tuy nhiên, không có phương thức truyền tải dữ liệu qua internet hoặc lưu trữ điện tử nào là an toàn tuyệt đối.</p>
+        <h2><i class="bi bi-people"></i> Chia sẻ thông tin</h2>
+        <p>Chúng tôi không bán, trao đổi hoặc chuyển giao thông tin cá nhân cho bên thứ ba, ngoại trừ các đối tác tin cậy hỗ trợ vận hành website và cung cấp dịch vụ, với điều kiện các bên này cam kết bảo mật thông tin.</p>
+        <h2><i class="bi bi-cookie"></i> Cookie</h2>
+        <p>Website sử dụng cookie để cải thiện trải nghiệm. Cookie là các tệp nhỏ lưu trên thiết bị, giúp nhận diện trình duyệt và ghi nhớ thông tin như ngôn ngữ, tùy chọn.</p>
+        <h2><i class="bi bi-person-check"></i> Quyền của bạn</h2>
+        <p>Bạn có quyền:</p>
+        <ul>
+            <li>Truy cập, sửa đổi hoặc xóa thông tin cá nhân.</li>
+            <li>Từ chối xử lý thông tin cá nhân.</li>
+            <li>Yêu cầu cung cấp bản sao thông tin cá nhân mà chúng tôi lưu giữ.</li>
+        </ul>
+        <h2><i class="bi bi-arrow-repeat"></i> Thay đổi chính sách</h2>
+        <p>Chúng tôi có thể cập nhật chính sách bảo mật này. Mọi thay đổi sẽ được thông báo trên trang này.</p>
+        <h2><i class="bi bi-envelope"></i> Liên hệ</h2>
+        <p>Nếu có câu hỏi về chính sách bảo mật, vui lòng liên hệ: <a href="mailto:info@travelwebsite.com">info@travelwebsite.com</a></p>
     </div>
 </div>
