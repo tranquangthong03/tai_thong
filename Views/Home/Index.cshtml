@@ -12,7 +12,7 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://source.unsplash.com/1600x800/?beach,travel" class="d-block w-100" alt="Beach Vacation" style="object-fit:cover; height:600px;">
+            <img src="/images/general/banner-beach.jpg" class="d-block w-100" alt="Beach Vacation" style="object-fit:cover; height:600px;">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-4 fw-bold">Khám phá những bãi biển tuyệt đẹp</h1>
                 <p class="lead">Trải nghiệm kỳ nghỉ dưỡng tuyệt vời tại những bãi biển đẹp nhất thế giới.</p>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="https://source.unsplash.com/1600x800/?mountain,travel" class="d-block w-100" alt="Mountain View" style="object-fit:cover; height:600px;">
+            <img src="/images/general/banner-mountain.jpg" class="d-block w-100" alt="Mountain View" style="object-fit:cover; height:600px;">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-4 fw-bold">Chinh phục đỉnh núi hùng vĩ</h1>
                 <p class="lead">Những chuyến phiêu lưu mạo hiểm đến các dãy núi cao nhất.</p>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="https://source.unsplash.com/1600x800/?city,travel" class="d-block w-100" alt="City Tour" style="object-fit:cover; height:600px;">
+            <img src="/images/general/banner-city.jpg" class="d-block w-100" alt="City Tour" style="object-fit:cover; height:600px;">
             <div class="carousel-caption d-none d-md-block">
                 <h1 class="display-4 fw-bold">Khám phá thành phố sôi động</h1>
                 <p class="lead">Trải nghiệm lịch sử và văn hóa đặc sắc từ các thành phố nổi tiếng.</p>
@@ -110,10 +110,11 @@
             {
                 @foreach (var destination in Model.PopularDestinations)
                 {
+                    var imagePath = $"/images/destinations/destination-{destination.Id}.jpg";
+                    
                     <div class="col-md-4">
                         <div class="card h-100 border-0 shadow-sm">
-                            <img src="@(string.IsNullOrEmpty(destination.ImageUrl) ? $"https://source.unsplash.com/300x200/?{destination.Name}" : destination.ImageUrl)" 
-                                 class="card-img-top" alt="@destination.Name" style="height: 200px; object-fit: cover;">
+                            <img src="@imagePath" class="card-img-top" alt="@destination.Name" style="height: 200px; object-fit: cover;">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h5 class="card-title mb-0">@destination.Name</h5>
@@ -161,11 +162,12 @@
             {
                 @foreach (var tour in Model.FeaturedTours)
                 {
+                    var imagePath = $"/images/tours/tour-{tour.Id}.jpg";
+                    
                     <div class="col-md-4">
                         <div class="card h-100 border-0 shadow-sm">
                             <div class="position-relative">
-                                <img src="@(string.IsNullOrEmpty(tour.ImageUrl) ? $"https://source.unsplash.com/300x200/?{tour.Name}" : tour.ImageUrl)" 
-                                     class="card-img-top" alt="@tour.Name" style="height: 200px; object-fit: cover;">
+                                <img src="@imagePath" class="card-img-top" alt="@tour.Name" style="height: 200px; object-fit: cover;">
                                 <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-2 m-2 rounded-pill">
                                     <strong>@tour.Price.ToString("N0") VNĐ</strong>
                                 </div>
@@ -221,7 +223,7 @@
                             "Dịch vụ tuyệt vời, hướng dẫn viên nhiệt tình và chuyên nghiệp. Tôi sẽ quay lại lần sau!"
                         </p>
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src="https://randomuser.me/api/portraits/women/43.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <img src="/images/general/testimonial-1.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                             <div class="text-start">
                                 <h6 class="mb-0">Nguyễn Thị Hương</h6>
                                 <small class="text-muted">Hà Nội</small>
@@ -245,7 +247,7 @@
                             "Chuyến đi rất thoải mái và đáng nhớ. Các điểm tham quan được lựa chọn rất hợp lý."
                         </p>
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <img src="/images/general/testimonial-2.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                             <div class="text-start">
                                 <h6 class="mb-0">Trần Văn Thành</h6>
                                 <small class="text-muted">TP. Hồ Chí Minh</small>
@@ -269,7 +271,7 @@
                             "Giá cả hợp lý với chất lượng dịch vụ tuyệt vời. Nhân viên rất thân thiện và chuyên nghiệp."
                         </p>
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src="https://randomuser.me/api/portraits/women/58.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <img src="/images/general/testimonial-3.jpg" class="rounded-circle me-3" style="width: 50px; height: 50px;">
                             <div class="text-start">
                                 <h6 class="mb-0">Phạm Thu Hà</h6>
                                 <small class="text-muted">Đà Nẵng</small>
