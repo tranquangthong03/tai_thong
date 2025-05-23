@@ -13,101 +13,115 @@
     </nav>
 
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-10 mx-auto">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">Thêm Tour Du Lịch Mới</h3>
+                    <h3 class="card-title mb-0"><i class="bi bi-plus-circle me-2"></i>Thêm Tour Du Lịch Mới</h3>
                 </div>
                 <div class="card-body p-4">
                     <form asp-action="Create" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 class="mb-3">Thông tin cơ bản</h4>
+                                
+                                <div class="form-group mb-3">
                                     <label asp-for="Name" class="form-label"></label>
-                                    <input asp-for="Name" class="form-control" />
+                                    <input asp-for="Name" class="form-control form-control-lg" placeholder="Nhập tên tour du lịch" />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
-                            </div>
-                        </div>
                         
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="DestinationId" class="form-label"></label>
-                                    <select asp-for="DestinationId" class="form-select">
-                                        <option value="">-- Chọn điểm đến --</option>
-                                        @if (Model.Destinations != null)
-                                        {
-                                            @foreach (var destination in Model.Destinations)
-                                            {
-                                                <option value="@destination.Id">@destination.Name, @destination.Country</option>
-                                            }
-                                        }
-                                    </select>
-                                    <span asp-validation-for="DestinationId" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="Price" class="form-label"></label>
-                                    <div class="input-group">
-                                        <input asp-for="Price" class="form-control" />
-                                        <span class="input-group-text">VNĐ</span>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="DestinationId" class="form-label"></label>
+                                            <select asp-for="DestinationId" class="form-select">
+                                                <option value="">-- Chọn điểm đến --</option>
+                                                @if (Model.Destinations != null)
+                                                {
+                                                    @foreach (var destination in Model.Destinations)
+                                                    {
+                                                        <option value="@destination.Id">@destination.Name, @destination.Country</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <span asp-validation-for="DestinationId" class="text-danger"></span>
+                                        </div>
                                     </div>
-                                    <span asp-validation-for="Price" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="Duration" class="form-label"></label>
-                                    <div class="input-group">
-                                        <input asp-for="Duration" class="form-control" />
-                                        <span class="input-group-text">ngày</span>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Price" class="form-label"></label>
+                                            <div class="input-group">
+                                                <input asp-for="Price" class="form-control" placeholder="1500000" />
+                                                <span class="input-group-text">VNĐ</span>
+                                            </div>
+                                            <span asp-validation-for="Price" class="text-danger"></span>
+                                        </div>
                                     </div>
-                                    <span asp-validation-for="Duration" class="text-danger"></span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="ImageUrl" class="form-label"></label>
-                                    <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
-                                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                                    <small class="form-text text-muted">Nhập URL hình ảnh đại diện cho tour</small>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Duration" class="form-label"></label>
+                                            <div class="input-group">
+                                                <input asp-for="Duration" class="form-control" placeholder="3" />
+                                                <span class="input-group-text">ngày</span>
+                                            </div>
+                                            <span asp-validation-for="Duration" class="text-danger"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                                
+                                <div class="form-group mb-3">
                                     <label asp-for="Description" class="form-label"></label>
-                                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                                    <textarea asp-for="Description" class="form-control" rows="5" placeholder="Mô tả về tour du lịch này..."></textarea>
                                     <span asp-validation-for="Description" class="text-danger"></span>
+                                    <small class="text-muted">Tối đa 500 ký tự.</small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <h4 class="mb-3">Hình ảnh & Tùy chọn</h4>
+                                
+                                <div class="form-group mb-4">
+                                    <label asp-for="ImageUrl" class="form-label"></label>
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"><i class="bi bi-link"></i></span>
+                                        <input asp-for="ImageUrl" class="form-control" id="imageUrlInput" placeholder="https://example.com/image.jpg" />
+                                    </div>
+                                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                                    <small class="text-muted">Nhập URL hình ảnh hoặc để trống để sử dụng ảnh mặc định.</small>
+                                    
+                                    <div class="image-preview text-center p-3 bg-light rounded mt-3">
+                                        <h6><i class="bi bi-image me-2"></i>Xem trước hình ảnh</h6>
+                                        <img id="imagePreview" src="https://via.placeholder.com/400x250?text=Preview+Image" class="img-fluid rounded mt-2" style="max-height: 200px; object-fit: cover;" />
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="IsPopular" class="form-check-input" />
+                                            <label asp-for="IsPopular" class="form-check-label"></label>
+                                        </div>
+                                        <small class="text-muted">Tour phổ biến sẽ hiển thị nổi bật.</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            <input asp-for="IsActive" class="form-check-input" />
+                                            <label asp-for="IsActive" class="form-check-label"></label>
+                                        </div>
+                                        <small class="text-muted">Tour chỉ hiển thị khi được kích hoạt.</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input asp-for="IsPopular" class="form-check-input" />
-                                    <label asp-for="IsPopular" class="form-check-label"></label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input asp-for="IsActive" class="form-check-input" />
-                                    <label asp-for="IsActive" class="form-check-label"></label>
-                                </div>
-                            </div>
-                        </div>
+                        <hr class="my-4">
                         
-                        <div class="d-flex justify-content-between mt-4">
+                        <div class="d-flex justify-content-between">
                             <a asp-action="Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-1"></i> Quay lại
                             </a>
@@ -124,4 +138,26 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Xử lý xem trước hình ảnh
+            $('#imageUrlInput').on('input', function() {
+                updateImagePreview($(this).val());
+            });
+            
+            function updateImagePreview(url) {
+                if (url && url.trim() !== '') {
+                    $('#imagePreview').attr('src', url);
+                } else {
+                    $('#imagePreview').attr('src', 'https://via.placeholder.com/400x250?text=Default+Image');
+                }
+                
+                // Xử lý lỗi nếu hình ảnh không tải được
+                $('#imagePreview').on('error', function() {
+                    $(this).attr('src', 'https://via.placeholder.com/400x250?text=Invalid+Image+URL');
+                });
+            }
+        });
+    </script>
 } 

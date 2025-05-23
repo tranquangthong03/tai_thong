@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/modern-footer.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TravelWebsite.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-airplane me-2"></i>Travel Website
+                    <i class="bi bi-airplane"></i>
+                    <span class="logo-text">Travel Website</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,33 +31,46 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && 
                                ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" 
                                asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house me-1"></i>Trang chủ
+                                <i class="bi bi-house"></i>Trang chủ
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Destination" ? "active" : "")" 
                                asp-area="" asp-controller="Destination" asp-action="Index">
-                                <i class="bi bi-geo-alt me-1"></i>Điểm đến
+                                <i class="bi bi-geo-alt"></i>Điểm đến
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Tour" ? "active" : "")" 
                                asp-area="" asp-controller="Tour" asp-action="Index">
-                                <i class="bi bi-map me-1"></i>Tours
+                                <i class="bi bi-map"></i>Tours
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Privacy" ? "active" : "")" 
                                asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <i class="bi bi-shield-check me-1"></i>Chính sách
+                                <i class="bi bi-shield-check"></i>Chính sách
                             </a>
                         </li>
                     </ul>
+                    
+                    <!-- Thanh tìm kiếm -->
+                    <div class="navbar-search d-none d-lg-block">
+                        <form class="d-flex" role="search">
+                            <input class="search-input" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+                            <button class="search-btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
-    </header>    <div class="container flex-grow-1" style="margin-top: 80px;">
+    </header>
+    
+    <div class="container flex-grow-1" style="margin-top: 80px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -254,6 +269,7 @@
     </footer>    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
     <script src="~/js/destination-filter.js" asp-append-version="true"></script>
     <!-- <script src="~/js/testimonials-fix.js" asp-append-version="true"></script> -->
     <script src="~/js/modern-footer.js" asp-append-version="true"></script>

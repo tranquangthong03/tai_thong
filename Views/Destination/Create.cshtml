@@ -5,64 +5,109 @@
 }
 
 <div class="container mt-5">
-    <h1 class="mb-4">@ViewData["Title"]</h1>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="Create">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+            <h2 class="mb-0"><i class="bi bi-plus-circle me-2"></i>@ViewData["Title"]</h2>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 
-                <div class="form-group mb-3">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="mb-3">Thông tin cơ bản</h4>
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label">Tên điểm đến <span class="text-danger">*</span></label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Nhập tên điểm đến" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Country" class="form-label">Quốc gia <span class="text-danger">*</span></label>
+                                    <input asp-for="Country" class="form-control" placeholder="Việt Nam" required />
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="City" class="form-label">Thành phố</label>
+                                    <input asp-for="City" class="form-control" placeholder="Đà Nẵng" />
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label">Mô tả</label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Mô tả về điểm đến này..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <small class="text-muted">Tối đa 200 ký tự.</small>
+                        </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Country" class="control-label"></label>
-                    <input asp-for="Country" class="form-control" />
-                    <span asp-validation-for="Country" class="text-danger"></span>
-                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Rating" class="form-label">Xếp hạng</label>
+                                    <div class="input-group">
+                                        <input asp-for="Rating" class="form-control" type="number" step="0.1" min="0" max="5" placeholder="4.5" />
+                                        <span class="input-group-text"><i class="bi bi-star-fill"></i></span>
+                                    </div>
+                                    <span asp-validation-for="Rating" class="text-danger"></span>
+                                    <small class="text-muted">Xếp hạng từ 0 đến 5 sao.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="City" class="control-label"></label>
-                    <input asp-for="City" class="form-control" />
-                    <span asp-validation-for="City" class="text-danger"></span>
-                </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-3">Hình ảnh & Tùy chọn bổ sung</h4>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Rating" class="control-label"></label>
-                    <input asp-for="Rating" class="form-control" type="number" step="0.1" min="0" max="5" />
-                    <span asp-validation-for="Rating" class="text-danger"></span>
-                </div>
+                        <div class="form-group mb-4">
+                            <label asp-for="ImageUrl" class="form-label">URL Hình ảnh</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"><i class="bi bi-link"></i></span>
+                                <input asp-for="ImageUrl" class="form-control" id="imageUrlInput" placeholder="https://example.com/image.jpg" />
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                            <small class="text-muted">Nhập URL hình ảnh hoặc để trống để sử dụng ảnh mặc định.</small>
+                            
+                            <div class="image-preview text-center p-3 bg-light rounded mt-3">
+                                <h6><i class="bi bi-image me-2"></i>Xem trước hình ảnh</h6>
+                                <img id="imagePreview" src="https://via.placeholder.com/400x250?text=Preview+Image" class="img-fluid rounded mt-2" style="max-height: 200px; object-fit: cover;" />
+                            </div>
+                        </div>
 
-                <div class="form-group form-check mb-3">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsPopular" /> @Html.DisplayNameFor(model => model.IsPopular)
-                    </label>
-                </div>
-
-                 <div class="form-group form-check mb-3">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                    </label>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" asp-for="IsPopular" />
+                                    <label class="form-check-label" asp-for="IsPopular">Đánh dấu là phổ biến</label>
+                                </div>
+                                <small class="text-muted">Điểm đến phổ biến sẽ được hiển thị nổi bật.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" asp-for="IsActive" checked />
+                                    <label class="form-check-label" asp-for="IsActive">Kích hoạt</label>
+                                </div>
+                                <small class="text-muted">Điểm đến chỉ hiển thị khi được kích hoạt.</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group mt-4">
-                    <button type="submit" class="btn btn-success me-2">Lưu</button>
-                    <a asp-action="Index" class="btn btn-secondary">Quay lại Danh sách</a>
+                <hr class="my-4">
+                
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Quay lại Danh sách
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Thêm Điểm đến
+                    </button>
                 </div>
             </form>
         </div>
@@ -71,4 +116,26 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Xử lý xem trước hình ảnh
+            $('#imageUrlInput').on('input', function() {
+                updateImagePreview($(this).val());
+            });
+            
+            function updateImagePreview(url) {
+                if (url && url.trim() !== '') {
+                    $('#imagePreview').attr('src', url);
+                } else {
+                    $('#imagePreview').attr('src', 'https://via.placeholder.com/400x250?text=Default+Image');
+                }
+                
+                // Xử lý lỗi nếu hình ảnh không tải được
+                $('#imagePreview').on('error', function() {
+                    $(this).attr('src', 'https://via.placeholder.com/400x250?text=Invalid+Image+URL');
+                });
+            }
+        });
+    </script>
 } 

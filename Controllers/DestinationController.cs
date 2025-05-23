@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using TravelWebsite.Data;
 using TravelWebsite.Models;
 using TravelWebsite.ViewModels;
+using System.Linq;
 
 namespace TravelWebsite.Controllers
 {
     public class DestinationController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private const int PageSize = 6; // Số lượng điểm đến mỗi trang
 
         public DestinationController(ApplicationDbContext context)
         {
@@ -18,15 +20,98 @@ namespace TravelWebsite.Controllers
         }
 
         // GET: Destination
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string searchString = "", string country = "", decimal? minRating = null, bool? isPopular = null, string sortOrder = "")
         {
-            var destinations = await _context.Destinations
-                .Where(d => d.IsActive)
-                .OrderBy(d => d.Country)
-                .ThenBy(d => d.Name)
+            ViewData["CurrentPage"] = page;
+            ViewData["SearchString"] = searchString;
+            ViewData["Country"] = country;
+            ViewData["MinRating"] = minRating;
+            ViewData["IsPopular"] = isPopular;
+            ViewData["SortOrder"] = sortOrder;
+
+            // Khởi tạo query
+            var query = _context.Destinations
+                .Where(d => d.IsActive);
+
+            // Lọc theo tìm kiếm
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(d => 
+                    d.Name.Contains(searchString) || 
+                    d.Country.Contains(searchString) ||
+                    (d.City != null && d.City.Contains(searchString)) ||
+                    (d.Description != null && d.Description.Contains(searchString))
+                );
+            }
+
+            // Lọc theo quốc gia
+            if (!string.IsNullOrEmpty(country))
+            {
+                query = query.Where(d => d.Country.Contains(country));
+            }
+
+            // Lọc theo đánh giá
+            if (minRating.HasValue)
+            {
+                query = query.Where(d => d.Rating >= minRating.Value);
+            }
+
+            // Lọc theo phổ biến
+            if (isPopular.HasValue && isPopular.Value)
+            {
+                query = query.Where(d => d.IsPopular);
+            }
+
+            // Sắp xếp
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    query = query.OrderByDescending(d => d.Name);
+                    break;
+                case "rating_asc":
+                    query = query.OrderBy(d => d.Rating);
+                    break;
+                case "rating_desc":
+                    query = query.OrderByDescending(d => d.Rating);
+                    break;
+                case "country_asc":
+                    query = query.OrderBy(d => d.Country).ThenBy(d => d.Name);
+                    break;
+                default: // "name_asc" hoặc mặc định
+                    query = query.OrderBy(d => d.Name);
+                    break;
+            }
+
+            // Đếm tổng số điểm đến để phân trang
+            int totalItems = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
+
+            // Đảm bảo số trang hợp lệ
+            if (page < 1)
+                page = 1;
+            else if (page > totalPages && totalPages > 0)
+                page = totalPages;
+
+            // Lấy dữ liệu cho trang hiện tại
+            var destinations = await query
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
                 .ToListAsync();
 
-            return View(destinations);
+            // Tạo viewModel với thông tin phân trang
+            var viewModel = new DestinationIndexViewModel
+            {
+                Destinations = destinations,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                SearchString = searchString,
+                Country = country,
+                MinRating = minRating,
+                IsPopular = isPopular,
+                SortOrder = sortOrder
+            };
+
+            return View(viewModel);
         }
 
         // GET: Destination/Details/5

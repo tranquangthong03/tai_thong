@@ -11,42 +11,121 @@ namespace TravelWebsite.Controllers
     public class TourController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private const int PageSize = 6; // Số lượng tour mỗi trang
 
         public TourController(ApplicationDbContext context)
         {
             _context = context;
-        }        // GET: Tour
-        public async Task<IActionResult> Index(string searchName, decimal? minPrice, decimal? maxPrice)
+        }
+
+        // GET: Tour
+        public async Task<IActionResult> Index(int page = 1, string searchName = "", decimal? minPrice = null, decimal? maxPrice = null, int? destinationId = null, bool? isPopular = null, string sortOrder = "")
         {
-            var toursQuery = _context.Tours
+            ViewData["CurrentPage"] = page;
+            ViewData["SearchName"] = searchName;
+            ViewData["MinPrice"] = minPrice;
+            ViewData["MaxPrice"] = maxPrice;
+            ViewData["DestinationId"] = destinationId;
+            ViewData["IsPopular"] = isPopular;
+            ViewData["SortOrder"] = sortOrder;
+
+            // Khởi tạo query
+            var query = _context.Tours
                 .Include(t => t.Destination)
                 .Where(t => t.IsActive);
 
-            // Apply search filters if provided
+            // Lọc theo tìm kiếm
             if (!string.IsNullOrEmpty(searchName))
             {
-                toursQuery = toursQuery.Where(t => t.Name.Contains(searchName) || 
-                                                 (t.Description != null && t.Description.Contains(searchName)) ||
-                                                 (t.Destination.Name.Contains(searchName)));
+                query = query.Where(t => 
+                    t.Name.Contains(searchName) || 
+                    (t.Description != null && t.Description.Contains(searchName)) ||
+                    (t.Destination.Name.Contains(searchName)));
             }
 
+            // Lọc theo giá
             if (minPrice.HasValue)
             {
-                toursQuery = toursQuery.Where(t => t.Price >= minPrice.Value);
+                query = query.Where(t => t.Price >= minPrice.Value);
             }
 
             if (maxPrice.HasValue)
             {
-                toursQuery = toursQuery.Where(t => t.Price <= maxPrice.Value);
+                query = query.Where(t => t.Price <= maxPrice.Value);
             }
 
-            // Order the results
-            var tours = await toursQuery
-                .OrderByDescending(t => t.IsPopular)
-                .ThenBy(t => t.Name)
+            // Lọc theo điểm đến
+            if (destinationId.HasValue)
+            {
+                query = query.Where(t => t.DestinationId == destinationId.Value);
+            }
+
+            // Lọc theo phổ biến
+            if (isPopular.HasValue && isPopular.Value)
+            {
+                query = query.Where(t => t.IsPopular);
+            }
+
+            // Sắp xếp
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    query = query.OrderByDescending(t => t.Name);
+                    break;
+                case "price_asc":
+                    query = query.OrderBy(t => t.Price);
+                    break;
+                case "price_desc":
+                    query = query.OrderByDescending(t => t.Price);
+                    break;
+                case "duration_asc":
+                    query = query.OrderBy(t => t.Duration);
+                    break;
+                case "duration_desc":
+                    query = query.OrderByDescending(t => t.Duration);
+                    break;
+                default: // "name_asc" hoặc mặc định
+                    query = query.OrderBy(t => t.Name);
+                    break;
+            }
+
+            // Đếm tổng số tour để phân trang
+            int totalItems = await query.CountAsync();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
+
+            // Đảm bảo số trang hợp lệ
+            if (page < 1)
+                page = 1;
+            else if (page > totalPages && totalPages > 0)
+                page = totalPages;
+
+            // Lấy dữ liệu cho trang hiện tại
+            var tours = await query
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
                 .ToListAsync();
 
-            return View(tours);
+            // Lấy danh sách điểm đến cho dropdown lọc
+            ViewBag.Destinations = await _context.Destinations
+                .Where(d => d.IsActive)
+                .OrderBy(d => d.Name)
+                .ToListAsync();
+
+            // Tạo viewModel với thông tin phân trang
+            var viewModel = new TourIndexViewModel
+            {
+                Tours = tours,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                SearchName = searchName,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                DestinationId = destinationId,
+                IsPopular = isPopular,
+                SortOrder = sortOrder
+            };
+
+            return View(viewModel);
         }
 
         // GET: Tour/Details/5
@@ -110,7 +189,12 @@ namespace TravelWebsite.Controllers
 
                 _context.Add(tour);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                // Xác định trang để chuyển hướng sau khi tạo tour
+                int totalTours = await _context.Tours.Where(t => t.IsActive).CountAsync();
+                int targetPage = (int)Math.Ceiling(totalTours / (double)PageSize);
+                
+                return RedirectToAction(nameof(Index), new { page = targetPage });
             }
 
             // If we got this far, something failed, redisplay form
@@ -206,7 +290,18 @@ namespace TravelWebsite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
+                // Xác định trang chứa tour sau khi sửa
+                var tourIndex = await _context.Tours
+                    .Where(t => t.IsActive)
+                    .OrderBy(t => t.Name)
+                    .Select(t => t.Id)
+                    .ToListAsync();
+                
+                var position = tourIndex.IndexOf(id);
+                int targetPage = position / PageSize + 1;
+                
+                return RedirectToAction(nameof(Index), new { page = targetPage });
             }
 
             // If we got this far, something failed, redisplay form
